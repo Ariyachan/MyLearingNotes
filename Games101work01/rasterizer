@@ -1,0 +1,64 @@
+#pragma once
+
+#include"Triangle.hpp" //包含对三角形的定义。
+#include<algorithm>   
+#include<Eigen/Eigen>
+
+using namesapce Eigen;
+
+//定义一个rst空间来实现光栅化。
+namespace rst  {
+//定义一个枚举类。使用到了enum class，注意可见范围。
+enum class Buffers  
+{
+    //定义了颜色，和深度。
+    Color = 1, 
+    Depth = 2
+};
+
+//重载了一下|符，将传进来的枚举对象转成了int类型。
+inline Buffers operator|(Buffers a, Buffers b)
+{
+    return Buffers((int)a | (int)b);
+}
+
+//重载了一下&符，同样将传进来的枚举对象转成了int类型.
+inline Buffers operator&(Buffers a , Buffers b)
+{
+    return Buffers((int)a & (int)b);
+}
+    
+//定义了一个枚举原始对象，里面有线，和三角形对象.
+enum class Primitive
+{
+    Line,
+    Triangle
+}
+
+}
+
+//画线函数使用了两个缓冲区结构体id来作为参数。
+struct pos_buf_id
+{
+    int pos_id = 0;
+};
+
+struct int_buf_id
+{
+    int ind_id = 0;
+}
+
+//定义光栅器类
+class rasterizer
+{
+public:
+    //光栅器构造函数
+    rasterizer(int w, int h);
+    
+    //将传进来的三维数组的引用作为坐标。
+    pos_buf_id load_positions(const std::vector<Eigen::Vector3f>& positions);
+    
+    //将传进来的三维数组的引用作为标记。
+    ind_buf_id load_indices(const std::vector<Eigen::Vector3i>& indices);
+    
+}
