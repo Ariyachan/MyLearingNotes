@@ -1,1 +1,100 @@
+//定义一个三角形需要： 
+//在Eigen下, Triangle.hpp下。
+class Triangle
+{
+public:
+    Vector3f v[3]; // 构造原始三角形的三个坐标点。v0, v1, v2且是逆时针。
+    Vector3f color[3];      //对于每个顶点的颜色
+    Vector2f tex_coords[3]; //二维向量，定义材质的u v.
+    Vector3f normal[3];     //对于每个顶点的法线向量。
+    
+    //Texture *tex 材质的初始化。
+    Triangle(); 
+    
+    //对每个点定义一个三维向量。
+    Eigen::Vector3f a() const { return v[0];}
+    Eigen::Vector3f b() const { return v[1];}
+    Eigen::Vector3f c() const { return v[2];}
+    
+    //设置顶点。
+    void setVertex(int ind, Vector3f ver); 
+    //设置法线
+    void setNormal(int ind, Vector3f n);
+    //设置颜色
+    void setColor(int ind, float r, float g, float b);
+    //设置纹理坐标
+    void setTexCoord(int ind, float s,
+                     float t);
+    //转换为齐次式。
+    std::array<Vector4f, 3> toVector4() const;
+};
 
+//三角形的实现
+//在Triangle.cpp
+#include "Triangle.hpp"
+#include <algorithm>
+#include <array>
+#include <stdexcept>
+
+//三角形的构造函数
+Triangle::Triangle()  
+{
+    v[0] << 0, 0, 0;
+    v[1] << 0, 0, 0;
+    v[2] << 0, 0, 0;
+
+    color[0] << 0.0, 0.0, 0.0;
+    color[1] << 0.0, 0.0, 0.0;
+    color[2] << 0.0, 0.0, 0.0;
+
+    tex_coords[0] << 0.0, 0.0;
+    tex_coords[1] << 0.0, 0.0;
+    tex_coords[2] << 0.0, 0.0;
+}
+
+//设置顶点,将传进来的三维坐标赋给ind.
+void Triangle::setVertex(int ind, Eigen::Vector3f ver)
+{ 
+    v[ind] = ver; 
+}
+
+//设置法线，同样将传进来的3位坐标赋给ind.
+void Triangle::setNormal(int ind, Vector3f n)
+{ 
+    normal[ind] = n; 
+}
+
+//设置颜色传进来的rgb
+void Triangle::setColor(int ind, float r, float g, float b)
+{
+    //先进行一层判断，看传进来的颜色是否超过了限度范围，如果超过则扔出一个异常。
+    if ((r < 0.0) || (r > 255.) || (g < 0.0) || (g > 255.) || (b < 0.0) ||
+        (b > 255.))
+        {
+            throw std::runtime_error("Invalid color values");
+        }
+        
+    //将传进来的颜色向量强制转换成浮点型并除以255赋给颜色ind.
+    color[ind] = Vector3f((float)r / 255.,(float)g / 255.,(float)b / 255.);
+    return;
+}
+
+//设置颜色坐标 将传进来的u , v 坐标赋给ind
+void Triangle::setTexCoord(int ind,float s, float t)
+{
+    tex_coords[ind] = Vector2f(s,t);
+}
+
+// 转换为齐次式
+std::array<Vector4f,3> Triangle::toVector4() const
+{
+    //初始化一个res的数组对象
+    std::array<Vector4f, 3> res;
+    //使用lambda匿名函数将其转换为齐次式
+    std::transform(std::begin(v), std::end(v),res.begin(),[](auto& vec) 
+    {
+        //函数做的事就是接收传进来的3个向量然后多加上一个1.f。然后返回这个对象。
+        return Vector4f(vec.x(),vec.y(),vec.z(),1.f);
+    });
+    return res;
+}
