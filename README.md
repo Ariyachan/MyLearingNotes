@@ -1,4 +1,7 @@
 # MyLearingNotes
+
+另外有图形学分支
+
 自己写的一些笔记。
 
 关于数据结构: http://note.youdao.com/noteshare?id=3ee3adb0d1428bfb757f290a1ffecf79&sub=C5146FC78BC34A9C97B346209ABFF4BA
