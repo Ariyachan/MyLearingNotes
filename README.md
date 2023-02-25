@@ -1,4 +1,4 @@
-# MyLearingNotes
+# LearingNotes
 
 另外有图形学分支
 
