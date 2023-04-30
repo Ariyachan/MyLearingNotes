@@ -9,3 +9,13 @@
 关于C语言基本概念：http://note.youdao.com/noteshare?id=34343a6ba83535f8b6814092f8642a3d&sub=ECA42DDF85534539BE37939CC6F1109F
 
 关于C++ : https://note.youdao.com/noteshare?id=95af666affa3b1217ae07ead0d3cb75b
+
+现代c++：https://note.youdao.com/s/LsfACnuo
+
+关于奇妙递归模板模式:https://note.youdao.com/s/aHEKEaEj
+
+关于C++ 关键字的使用:https://note.youdao.com/s/K9tAguJN
+
+STL : https://note.youdao.com/s/OhRIGaTL
+
+单例模式： https://note.youdao.com/s/EEjvyZQB
